@@ -1,11 +1,12 @@
-# SkillForge – Personalized Learning Feed
+# SkillForge
+A personalized learning feed that surfaces updates matching your tech stack.
 
-A tiny, pure‑Python implementation of a personalized learning dashboard.
-It demonstrates:
+## Usage
+1. Create a user with a tech stack.
+2. Add items with tags.
+3. Get the dashboard for a user.
+4. Get the detail view for an item.
+5. Update the tech stack for a user.
 
-- **User profiles** with up to 10 tech‑stack tags.
-- **Dashboard** that surfaces the latest 10 items matching those tags.
-- **Detail view** for each item (summary + external links).
-- **Preference updates** that immediately affect the dashboard.
-
-## Running the tests
+## Tests
+Run `python -m pytest` to run the tests.
