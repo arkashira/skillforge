@@ -1,12 +1,7 @@
-# SkillForge
-A personalized learning feed that surfaces updates matching your tech stack.
+# Axentx Product
 
-## Usage
-1. Create a user with a tech stack.
-2. Add items with tags.
-3. Get the dashboard for a user.
-4. Get the detail view for an item.
-5. Update the tech stack for a user.
+A minimal example package used for unit testing in the Axentx
+development environment.  The package exposes a single helper
+function `add` and a `__version__` attribute.
 
-## Tests
-Run `python -m pytest` to run the tests.
+## Installation

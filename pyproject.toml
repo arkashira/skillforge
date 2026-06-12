@@ -1,14 +1,17 @@
 [build-system]
-requires = ["poetry>=0.12"]
-build-backend = "poetry.masonry.api"
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
 
-[tool.poetry]
-name = "skillforge"
+[project]
+name = "axentx-product"
 version = "0.1.0"
-description = ""
-
-[tool.poetry.dependencies]
-python = "^3.8"
-
-[tool.poetry.dev-dependencies]
-pytest = "^6.2.5"
+description = "A minimal example package for Axentx product tests."
+readme = "README.md"
+requires-python = ">=3.8"
+authors = [{name = "Axentx", email = "contact@axentx.com"}]
+license = {text = "MIT"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
