@@ -1,60 +1,66 @@
 import json
 from dataclasses import dataclass
-from typing import List
+from datetime import datetime, timedelta
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 @dataclass
-class Item:
-    id: int
+class Update:
     title: str
     summary: str
-    tags: List[str]
-    links: List[str]
+    link: str
 
-@dataclass
-class User:
-    id: int
-    tech_stack: List[str]
+class Skillforge:
+    def __init__(self, db):
+        self.db = db
 
-class SkillForge:
-    def __init__(self):
-        self.users = {}
-        self.items = []
+    def get_top_updates(self):
+        # Simulate getting top updates from DB
+        return [
+            Update("Update 1", "Summary 1. This is a summary.", "https://example.com/update1"),
+            Update("Update 2", "Summary 2. This is another summary.", "https://example.com/update2"),
+            Update("Update 3", "Summary 3. Yet another summary.", "https://example.com/update3"),
+            Update("Update 4", "Summary 4. More summaries.", "https://example.com/update4"),
+            Update("Update 5", "Summary 5. The final summary.", "https://example.com/update5"),
+        ]
 
-    def add_user(self, user_id, tech_stack):
-        self.users[user_id] = User(user_id, tech_stack)
+    def send_email(self, updates, subscriber):
+        # Simulate sending email
+        msg = MIMEMultipart()
+        msg['From'] = 'skillforge@example.com'
+        msg['To'] = subscriber
+        msg['Subject'] = 'Weekly Updates'
+        body = ''
+        for update in updates:
+            body += f'{update.title}\n{update.summary}\n{update.link}\n\n'
+        msg.attach(MIMEText(body, 'plain'))
+        server = smtplib.SMTP('smtp.example.com', 587)
+        server.starttls()
+        server.login('skillforge@example.com', 'password')
+        text = msg.as_string()
+        server.sendmail('skillforge@example.com', subscriber, text)
+        server.quit()
 
-    def add_item(self, item_id, title, summary, tags, links):
-        self.items.append(Item(item_id, title, summary, tags, links))
+    def track_open_rate(self, subscriber):
+        # Simulate tracking open rate
+        return 0.5  # 50% open rate
 
-    def get_dashboard(self, user_id):
-        user = self.users.get(user_id)
-        if user:
-            filtered_items = [item for item in self.items if any(tag in user.tech_stack for tag in item.tags)]
-            return filtered_items[:10]
-        return []
+    def unsubscribe(self, subscriber):
+        # Simulate unsubscribing
+        self.db.remove(subscriber)
 
-    def get_item_detail(self, item_id):
-        for item in self.items:
-            if item.id == item_id:
-                return item
-        return None
+def main():
+    db = ['subscriber1@example.com', 'subscriber2@example.com']
+    skillforge = Skillforge(db)
+    updates = skillforge.get_top_updates()
+    for subscriber in db:
+        skillforge.send_email(updates, subscriber)
+        open_rate = skillforge.track_open_rate(subscriber)
+        if open_rate < 0.3:
+            print(f'Open rate for {subscriber} is {open_rate:.2f}, which is less than 30%')
+        if subscriber == 'subscriber2@example.com':
+            skillforge.unsubscribe(subscriber)
 
-    def update_tech_stack(self, user_id, new_tech_stack):
-        user = self.users.get(user_id)
-        if user:
-            user.tech_stack = new_tech_stack
-
-    @staticmethod
-    def load_data(skill_forge, data):
-        for user in data['users']:
-            skill_forge.add_user(user['id'], user['tech_stack'])
-        for item in data['items']:
-            skill_forge.add_item(item['id'], item['title'], item['summary'], item['tags'], item['links'])
-
-    @staticmethod
-    def save_data(skill_forge):
-        data = {
-            'users': [{'id': user.id, 'tech_stack': user.tech_stack} for user in skill_forge.users.values()],
-            'items': [{'id': item.id, 'title': item.title, 'summary': item.summary, 'tags': item.tags, 'links': item.links} for item in skill_forge.items]
-        }
-        return data
+if __name__ == '__main__':
+    main()
