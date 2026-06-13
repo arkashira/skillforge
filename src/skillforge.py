@@ -30,16 +30,15 @@ class SkillForge:
         user = self.users.get(user_id)
         if not user:
             return []
-        filtered_items = [item for item in self.items if any(tag in user.tech_stack for tag in item.tags)]
-        return sorted(filtered_items, key=lambda x: x.id, reverse=True)[:10]
+        return [item for item in self.items if any(tag in user.tech_stack for tag in item.tags)]
 
-    def get_item_detail(self, item_id: int):
+    def get_item(self, item_id: int):
         for item in self.items:
             if item.id == item_id:
                 return item
         return None
 
-    def update_tech_stack(self, user_id: int, new_tech_stack: List[str]):
+    def update_tech_stack(self, user_id: int, tech_stack: List[str]):
         user = self.users.get(user_id)
         if user:
-            user.tech_stack = new_tech_stack
+            user.tech_stack = tech_stack

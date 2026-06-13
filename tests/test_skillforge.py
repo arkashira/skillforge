@@ -1,3 +1,4 @@
+import pytest
 from skillforge import SkillForge, User, Item
 
 def test_add_user():
@@ -18,10 +19,10 @@ def test_get_dashboard():
     dashboard = skillforge.get_dashboard(1)
     assert len(dashboard) == 2
 
-def test_get_item_detail():
+def test_get_item():
     skillforge = SkillForge()
     skillforge.add_item(1, "Item 1", "Summary 1", ["PyTorch"], ["https://example.com"])
-    item = skillforge.get_item_detail(1)
+    item = skillforge.get_item(1)
     assert item.title == "Item 1"
 
 def test_update_tech_stack():
@@ -35,7 +36,7 @@ def test_get_dashboard_empty():
     dashboard = skillforge.get_dashboard(1)
     assert dashboard == []
 
-def test_get_item_detail_not_found():
+def test_get_item_none():
     skillforge = SkillForge()
-    item = skillforge.get_item_detail(1)
+    item = skillforge.get_item(1)
     assert item is None
