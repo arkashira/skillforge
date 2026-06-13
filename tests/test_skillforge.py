@@ -18,10 +18,10 @@ def test_get_dashboard():
     dashboard = skillforge.get_dashboard(1)
     assert len(dashboard) == 2
 
-def test_get_item():
+def test_get_item_detail():
     skillforge = SkillForge()
     skillforge.add_item(1, "Item 1", "Summary 1", ["PyTorch"], ["https://example.com"])
-    item = skillforge.get_item(1)
+    item = skillforge.get_item_detail(1)
     assert item.title == "Item 1"
 
 def test_update_tech_stack():
@@ -29,3 +29,13 @@ def test_update_tech_stack():
     skillforge.add_user(1, ["PyTorch", "LangChain"])
     skillforge.update_tech_stack(1, ["TensorFlow", "Keras"])
     assert skillforge.users[1].tech_stack == ["TensorFlow", "Keras"]
+
+def test_get_dashboard_empty():
+    skillforge = SkillForge()
+    dashboard = skillforge.get_dashboard(1)
+    assert dashboard == []
+
+def test_get_item_detail_not_found():
+    skillforge = SkillForge()
+    item = skillforge.get_item_detail(1)
+    assert item is None
